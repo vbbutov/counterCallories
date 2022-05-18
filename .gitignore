@@ -1,8 +1,10 @@
 .DS_Store
 node_modules
 /dist
-
-
+css
+fonts
+public
+.gitignore
 # local env files
 .env.local
 .env.*.local

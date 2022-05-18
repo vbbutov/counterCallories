@@ -106,7 +106,7 @@
                       </li>
                       <li class="radio">
                         <div class="radio__wrapper">
-                          <input v-model="physicalActivity" id="activity-high" name="activity" value="high" type="radio" required>
+                          <input v-model.lazy="physicalActivity" id="activity-high" name="activity" value="high" type="radio" required>
                           <label for="activity-high">
                             Высокая
                           </label>
@@ -132,16 +132,23 @@
         </form>
           <my-button :age="age" :height="height" :physicalActivity="physicalActivity" :weight="weight" :gender="gender" @updateParent='resetData'
           @compute="computeCallories"></my-button>
-         
+          <div v-if="result >= 0">
+               <my-result :result="result"></my-result>
+          </div>
+          <div v-else>
+             Введены некорректные данные : {{result.toFixed(2)}}
+          </div>
+
         </div>
 </template>
 <script lang="ts">
 import { defineComponent } from 'vue'
 import MyButton from '@/components/Button.vue'
-
+import MyResult from '@/components/Result.vue'
 export default defineComponent({
   name: 'main-form',
-  components: { MyButton },
+  components: { MyButton, MyResult },
+
   data () {
     return {
       height: 0,
@@ -149,7 +156,8 @@ export default defineComponent({
       age: 0,
       gender: 'male',
       physicalActivity: 'min',
-      coefficient: 0
+      coefficient: 0,
+      result: 0
     }
   },
   methods: {
@@ -159,13 +167,15 @@ export default defineComponent({
       this.age = 0
       this.physicalActivity = 'min'
       this.gender = 'male'
+      this.result = 0
     },
-    computeCallories () {
-      let result :number = (10 * this.weight) + (6.26 * this.height) - (5 * this.age)
+    computeCallories ():number {
+      this.result = (10 * this.weight) + (6.26 * this.height) - (5 * this.age)
       if (this.gender === 'male') {
-        result -= 161
+        this.result -= 161
       } else {
-        result += 5
+        console.log(this.result)
+        this.result += 5
       }
       let x = 0
       switch (this.physicalActivity) {
@@ -175,9 +185,11 @@ export default defineComponent({
         case 'high' : x = 1.725; break
         case 'max': x = 1.9; break
       }
-      console.log(result * x)
-      return result * x
-    }
+      console.log(x)
+      console.log(this.result * x)
+      this.result *= x
+      return this.result
+    },
   }
 })
 </script>

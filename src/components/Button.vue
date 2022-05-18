@@ -36,12 +36,12 @@
 <script lang="ts">
 /* eslint-disable eqeqeq */
 import { defineComponent } from 'vue'
-import MyResult from '@/components/Result.vue'
+
 // import {constants} from '@/constants'
 export default defineComponent({
   name: 'button-page',
   props: ['height', 'weight', 'age', 'physicalActivity', 'gender'],
-  components: {MyResult},
+  // components: { MyResult },
   methods: {
     resetChild () :void {
       this.$emit('updateParent')
