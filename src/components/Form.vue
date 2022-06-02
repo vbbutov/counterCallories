@@ -189,7 +189,7 @@ export default defineComponent({
       console.log(this.result * x)
       this.result *= x
       return this.result
-    },
+    }
   }
 })
 </script>
